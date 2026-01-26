@@ -5,8 +5,13 @@
     
     posicionBala = 85; 
     function dispara() {
+       
        setInterval(() => {
-          posicionBala++; 
+          posicionBala+= 5; 
           bala.style.top = posicionBala + 'px'
-       }, 5);
+       }, 1);
+       
+       if(posicionBala >= 900) {
+           posicionBala = 85;
+       }
     }
