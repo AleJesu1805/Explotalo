@@ -7,7 +7,7 @@
     function dispara() {
        
        setInterval(() => {
-          posicionBala+= 5; 
+          posicionBala+= 1; 
           bala.style.top = posicionBala + 'px'
        }, 1);
        
