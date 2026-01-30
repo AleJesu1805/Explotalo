@@ -24,7 +24,7 @@ body, html {
     height: 200px;
     transform: translateX(-50%) rotate(180deg);
     z-index: 1;
-    background: url("Assets/tiroBlanco.png") center / cover;
+    background: url("tiroBlanco.png") center / cover;
     display: grid;
     place-items: center;
     transition: left 3s ease-out;
