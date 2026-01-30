@@ -35,7 +35,7 @@ body, html {
     transform: rotate(90deg);
     width: 900px;
     height: 900px;
-    background: url("Assets/woodTexture.jpg") center / 80px repeat;
+    background: url("woodTexture.jpg") center / 80px repeat;
     filter: brightness(0.6);
     opacity: 0.9;
     z-index: 0;
