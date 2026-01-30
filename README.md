@@ -1,2 +1,2 @@
 # Explotalo
-Jueguito casual y ligero de navegador
+Jueguito casual, adictivo y ligero de navegador para Android 
