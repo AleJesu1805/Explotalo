@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport"
+    content="width=device-width, 
+    initial-scale=1.0, 
+    maximum-scale=1.0, 
+    minimum-scale=1.0, 
+    user-scalable=no">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#52154a">
+    
+    <title>Explotalo</title>
+    <link rel="stylesheet" href="explotalo.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+</head>
+<body>
+    
+    <!-- FONDO -->
+    
+    <div id="fondo"></div>
+    <span style="
+    z-index: 6;
+    color: black;
+    font-size: 90px;
+    position: fixed;
+    ">50</span>
+    
+    <!-- OBJETOS -->
+    
+    <div id="barrita"></div>
+    <div id="atrasBarrita"></div>
+    <div>
+        
+        <!-- PISTOLA -->
+        
+        <button id="gatiyo" onclick="dispara()"></button>
+        <div>
+            <img id="Pistola" src="Assets/Pistola.png">
+            <img id="limitePistola" src="Assets/limitePistola.png">
+        </div>
+        <div>
+            <img id="bala" src="Assets/bala.png">
+        </div>
+        
+        <!-- TIRO AL BLANCO -->
+        
+        <div id="tiroBlanco">
+            <span>x</span>
+        </div>
+        <input 
+        type="range" 
+        id="deslizable" 
+        min="0" 
+        max="100" 
+        value="50">
+        
+    </div>
+    <script>
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js', {scope: './'})
+                    .then(registration => {
+                        console.log('Service Worker registrado:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Error registrando Service Worker:', error);
+                    });
+            });
+        }
+        
+        // Ocultar barra de navegación en móviles
+        function hideMobileNavigation() {
+            // Método 1: Forzar recálculo de viewport
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+            }, 100);
+            
+            // Método 2: Prevenir zoom y scroll
+            document.addEventListener('touchmove', function(e) {
+                if(!e.target.closest('#deslizable')) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Método 3: Ajustar altura para fullscreen
+            function resizeApp() {
+                const doc = document.documentElement;
+                doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+            }
+            
+            window.addEventListener('resize', resizeApp);
+            resizeApp();
+        }
+        
+        // Llamar al cargar la página
+        window.addEventListener('load', hideMobileNavigation);
+        window.addEventListener('orientationchange', hideMobileNavigation);
+    </script>
+    <script src="explotalo.js"></script>
+</body>
+</html>

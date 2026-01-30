@@ -1,0 +1,76 @@
+
+const CACHE_NAME = 'explotalo-v1.0';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/explotalo.css',
+  '/explotalo.js',
+  '/Assets/Pistola.png',
+  '/Assets/limitePistola.png',
+  '/Assets/bala.png',
+  '/Assets/tiroBlanco.png',
+  '/Assets/woodTexture.jpg',
+  '/icono-192.png',
+  '/icono-512.png',
+  '/manifest.json'
+];
+
+// Instalar Service Worker
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Cache abierto');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+// Activar y limpiar cache viejo
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Eliminando cache viejo:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
+// Interceptar peticiones
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Cache hit - devolver respuesta
+        if (response) {
+          return response;
+        }
+        
+        // Clonar la petición
+        const fetchRequest = event.request.clone();
+        
+        return fetch(fetchRequest).then(response => {
+          // Verificar si la respuesta es válida
+          if(!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+          
+          // Clonar la respuesta
+          const responseToCache = response.clone();
+          
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, responseToCache);
+            });
+            
+          return response;
+        });
+      })
+  );
+});
